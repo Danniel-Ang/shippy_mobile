@@ -229,3 +229,98 @@ GridView.count, Row, dan Column.
 ```
 
 </details>
+
+<details>
+<summary> Tugas 8 </summary>
+
+## Tugas 8
+
+#### 1. Apa kegunaan const di Flutter? Jelaskan apa keuntungan ketika menggunakan const pada kode Flutter. Kapan sebaiknya kita menggunakan const, dan kapan sebaiknya tidak digunakan?
+Dalam Flutter, const digunakan untuk mendefinisikan widget atau variabel yang dapat diinisialisasi pada compile-time alih-alih run-time. Hal ini membuat objek yang ditandai dengan const menjadi immutable (tidak dapat diubah) dan disimpan di memori, sehingga objek tersebut tidak perlu dibuat ulang setiap kali widget mengalami pembaruan. Keuntungan utama penggunaan const adalah peningkatan performa aplikasi, karena widget statis atau yang tidak berubah dapat direuse secara efisien, mengurangi beban kerja yang biasanya terjadi saat rendering run-time.
+
+Penggunaan const paling tepat diterapkan pada widget atau variabel yang sifatnya benar-benar statis dan tidak akan berubah selama siklus hidup aplikasi, misalnya teks atau ikon yang tidak bergantung pada data dinamis. Sebagai contoh, Text widget yang hanya berisi teks statis, menambahkannya dengan const dapat meningkatkan performa, terutama jika digunakan berulang kali di berbagai tempat dalam aplikasi.
+
+Namun, const sebaiknya dihindari pada widget yang memiliki children atau atribut yang kemungkinan besar akan berubah, seperti widget yang bergantung pada tema aplikasi atau data dinamis yang diperbarui. Jika sebuah widget memiliki elemen yang perlu diubah (misalnya, warna atau ukuran yang bergantung pada theme atau state), penggunaan const tidak dianjurkan karena perubahan tersebut akan mengharuskan widget tersebut untuk di-rebuild tanpa optimasi yang const tawarkan.
+
+#### 2. Jelaskan dan bandingkan penggunaan Column dan Row pada Flutter. Berikan contoh implementasi dari masing-masing layout widget ini!
+Column adalah layout yang memposisikan widget widget didalamnya dalam sebuah struktur seperti kolom. Susunan nya akan mirip seperti tumpukan (atas dan bawah). Sementara pada Row, widget-widget di posisikan saling bersebelahan seperti sebuah baris. 
+
+Contoh implementasi Column
+```dart
+Column(
+  children : [
+    Text("Halo"),
+    Text("Aku dibawah Halo"),
+    Text("Aku dibawah Aku dibawah Halo")
+  ]
+)
+```
+
+```dart
+Contoh implementasi Row
+Row(
+  children : [
+    Text("Halo"),
+    Text("Aku disamping Halo"),
+    Text("Aku disamping disamping Halo")
+  ]
+)
+```
+![alt text]({44A36D5C-69AE-4705-A6E9-9CE801BC900B}.png)
+
+#### 3.  Sebutkan apa saja elemen input yang kamu gunakan pada halaman form yang kamu Pada halaman form yang saya buat, elemen input yang saya gunakan adalah `TextFormField`, yang berfungsi untuk menerima tiga jenis data: nama produk, harga, dan deskripsi produk. Di Flutter, terdapat beberapa elemen input lain yang tidak saya gunakan dalam tugas ini, seperti `Checkbox` untuk pilihan biner (checked atau unchecked), `Radio` untuk memilih satu dari beberapa opsi, `Switch` untuk mengaktifkan atau menonaktifkan pengaturan, `DropdownButton` untuk membuat daftar pilihan, `Slider` untuk input data kontinu, serta `DatePicker` dan `TimePicker` untuk memilih tanggal dan waktu.
+
+#### 4. Bagaimana cara kamu mengatur tema (theme) dalam aplikasi Flutter agar aplikasi yang dibuat konsisten? Apakah kamu mengimplementasikan tema pada aplikasi yang kamu buat?
+Untuk mengatur tema dalam aplikasi Flutter, kita dapat melakukannya dengan menambahkan properti theme pada widget MaterialApp() yang terletak di awal aplikasi, biasanya dalam file main.dart. Tema yang ditentukan di sini akan diterapkan secara global ke seluruh aplikasi.
+
+```dart
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: Colors.blue,
+          secondary: Colors.blueAccent,
+        ),
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+```
+Pada aplikasi saya, tema aplikasi diatur dengan warna utama (primarySwatch) biru dan warna sekunder (secondary) biru terang (blueAccent). Properti primarySwatch mengatur warna dasar untuk elemen UI seperti AppBar, tombol, dan elemen lainnya, sementara colorScheme memberi fleksibilitas lebih dalam menyesuaikan warna lainnya seperti latar belakang, teks, dan status bar.
+
+Tema yang telah ditentukan akan diterapkan ke seluruh aplikasi dan memastikan konsistensi desain di seluruh tampilan aplikasi. Jika suatu widget memiliki tema lokal (misalnya, menggunakan Theme widget di dalamnya), maka tema lokal tersebut akan menimpa tema global yang telah ditetapkan di MaterialApp. Dengan cara ini, kita dapat dengan mudah menjaga konsistensi visual dan melakukan perubahan tema di satu tempat yang langsung diterapkan ke seluruh aplikasi.
+
+#### 5. Bagaimana cara kamu menangani navigasi dalam aplikasi dengan banyak halaman pada Flutter?
+
+Cara paling umum untuk menangani navigasi dalam Flutter adalah dengan menggunakan class Navigator. Navigator memiliki beberapa method utama, seperti push(), pop(), dan pushReplacement(), yang digunakan untuk berpindah antar halaman di dalam aplikasi.
+
+Navigator.push(): Method ini digunakan untuk menambahkan halaman baru ke dalam stack navigasi. Halaman baru akan ditampilkan di atas halaman sebelumnya. Navigasi ini memungkinkan pengguna untuk berpindah ke halaman baru dan menambahkannya ke dalam stack, yang memungkinkan pengguna untuk kembali ke halaman sebelumnya dengan menggunakan tombol back.
+
+```dart
+Navigator.push(
+  context,
+  MaterialPageRoute(builder: (context) => NewPage()),
+);
+```
+
+Navigator.pop(): Method ini berfungsi untuk menghapus halaman paling atas dari stack dan kembali ke halaman sebelumnya. Ini mirip dengan fungsi tombol back pada perangkat. Ketika dipanggil, aplikasi akan kembali ke halaman yang ada di bawah halaman yang saat ini tampil.
+
+```dart
+Navigator.pop(context);
+```
+
+Navigator.pushReplacement(): 
+Method ini menggantikan halaman yang sedang aktif dengan halaman baru. Halaman baru akan menggantikan halaman sebelumnya dalam stack, sehingga halaman sebelumnya tidak bisa kembali lagi dengan tombol back. Ini berguna ketika kita ingin mengganti halaman saat itu juga, seperti setelah login berhasil, atau dalam alur yang tidak membutuhkan pengguna untuk kembali ke halaman sebelumnya.
+
+```dart
+Navigator.pushReplacement(
+  context,
+  MaterialPageRoute(builder: (context) => NewPage()),
+);
+```
+
+</details>
