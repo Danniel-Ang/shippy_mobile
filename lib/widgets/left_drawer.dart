@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shippy_mobile/screens/menu.dart';
 import 'package:shippy_mobile/screens/productentry_form.dart';
+import 'package:shippy_mobile/screens/list_productentry.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -50,6 +51,14 @@ class LeftDrawer extends StatelessWidget {
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return ProductEntryFormPage();
+                }));
+              }),
+          ListTile(
+              leading: const Icon(Icons.add_business_outlined),
+              title: const Text('Lihat Produk'),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return ProductEntryPage();
                 }));
               }),
         ],
